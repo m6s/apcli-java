@@ -11,5 +11,6 @@ local.properties
 *.iml
 .idea/*
 !.idea/codeStyleSettings.xml
+!.idea/codeStyles
 
 /tmp
