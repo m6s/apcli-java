@@ -1,0 +1,15 @@
+# Gradle
+.gradle/
+build/
+release/
+local.properties
+
+# Mac
+.DS_Store
+
+# IntelliJ
+*.iml
+.idea/*
+!.idea/codeStyleSettings.xml
+
+/tmp

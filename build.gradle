@@ -1,0 +1,26 @@
+plugins {
+    id 'java'
+    id 'application'
+    id 'com.palantir.graal' version '0.3.0-37-g77aa98f'
+}
+
+group 'info.mschmitt.apcli'
+version '1.0-SNAPSHOT'
+
+sourceCompatibility = 1.8
+
+repositories {
+    jcenter()
+}
+
+dependencies {
+    testCompile 'junit:junit:4.12'
+}
+
+mainClassName = 'info.mschmitt.apcli.App'
+
+graal {
+    mainClass 'info.mschmitt.apcli.App'
+    outputName 'apcli'
+    graalVersion '1.0.0-rc16'
+}
