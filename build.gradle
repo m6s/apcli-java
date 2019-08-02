@@ -16,7 +16,9 @@ repositories {
 dependencies {
     compile 'net.sf.jopt-simple:jopt-simple:6.0-alpha-3'
 
-    testCompile 'junit:junit:4.12'
+    testCompile 'junit:junit:4.13-beta-3'
+    testCompile 'com.google.truth:truth:0.46'
+    testCompile 'org.mockito:mockito-core:2.28.2'
 }
 
 mainClassName = 'info.mschmitt.apcli.App'
