@@ -14,7 +14,7 @@ repositories {
 }
 
 dependencies {
-    compile 'commons-cli:commons-cli:1.4'
+    compile 'net.sf.jopt-simple:jopt-simple:6.0-alpha-3'
 
     testCompile 'junit:junit:4.12'
 }
@@ -26,4 +26,5 @@ graal {
     outputName 'apcli'
     graalVersion '1.0.0-rc16'
     option '-H:ReflectionConfigurationFiles=graal.json'
+    option '-H:IncludeResourceBundles=joptsimple.ExceptionMessages'
 }

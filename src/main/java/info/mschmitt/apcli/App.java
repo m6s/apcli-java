@@ -1,30 +1,33 @@
 package info.mschmitt.apcli;
 
-import org.apache.commons.cli.*;
+import joptsimple.OptionParser;
+import joptsimple.OptionSet;
+
+import java.util.List;
+import java.util.Objects;
 
 public class App {
-    private static final Option t = new Option("t", false, "display current time");
-    private static final Option help = new Option("help", false, "print this message");
-
     public static void main(String[] args) {
-        Options options = new Options();
-        options.addOption(t);
-        options.addOption(help);
-        CommandLineParser parser = new DefaultParser();
-        CommandLine line;
+        OptionParser parser = new OptionParser("f:t:");
+        OptionSet optionSet;
         try {
-            line = parser.parse(options, args);
-        } catch (ParseException exp) {
-            System.err.println(exp.getMessage());
+            optionSet = parser.parse(args);
+        } catch (joptsimple.OptionException ex) {
+            System.err.println(ex.getMessage());
             return;
         }
-        if (line.hasOption(help.getOpt())) {
-            HelpFormatter formatter = new HelpFormatter();
-            formatter.printHelp("apcli", options);
-        } else if (line.hasOption(t.getOpt())) {
-            System.out.println("Hello t");
-        } else {
-            System.out.println("Hello world!");
+        String from = (String) optionSet.valueOf("f");
+        String to = (String) optionSet.valueOf("t");
+        List<?> nonOptionArguments = optionSet.nonOptionArguments();
+        if (nonOptionArguments.size() != 1) {
+            System.err.println("You must specify exactly one command. Possible commands: project");
+            return;
         }
+        String command = (String) nonOptionArguments.get(0);
+        if (!Objects.equals(command, "project")) {
+            System.err.printf("Unknown command: %s\n", command);
+            return;
+        }
+        System.out.printf("Copying project and changing package from %s to %s\n", from, to);
     }
 }
