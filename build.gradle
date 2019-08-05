@@ -4,9 +4,6 @@ plugins {
     id 'com.palantir.graal' version '0.3.0-37-g77aa98f'
 }
 
-group 'info.mschmitt.apcli'
-version '1.0-SNAPSHOT'
-
 sourceCompatibility = 1.8
 
 repositories {
