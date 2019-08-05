@@ -54,8 +54,7 @@ public class CliTest {
         File actualFile = actual.toFile();
         if (actualFile.isFile()) {
             Assert.assertTrue(expectedFile.toString(), expectedFile.isFile());
-            if (actual.getFileName().toString().endsWith(".java")) {
-                // || actual.getFileName().toString().endsWith(".xml")
+            if (actual.getFileName().toString().endsWith(".java") || actual.getFileName().toString().endsWith(".xml")) {
                 List<String> f1 = Files.readAllLines(actual);
                 List<String> f2 = Files.readAllLines(expected);
                 assertThat(f1).isEqualTo(f2);

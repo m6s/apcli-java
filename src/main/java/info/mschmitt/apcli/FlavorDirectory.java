@@ -18,14 +18,19 @@ public class FlavorDirectory implements Node {
         }
         for (File file : files) {
             Path childPath = file.toPath();
+            String childName = childPath.getFileName().toString();
             if (file.isDirectory()) {
-                if (childPath.getFileName().toString().equals("java")) {
+                if (childName.equals("java")) {
                     nodes.add(new JavaSrcDirectory(childPath));
                 } else {
                     nodes.add(new GenericDirectory(childPath));
                 }
             } else {
-                nodes.add(new GenericFile(childPath));
+                if (childName.equals("AndroidManifest.xml")) {
+                    nodes.add(new ManifestFile(childPath));
+                } else {
+                    nodes.add(new GenericFile(childPath));
+                }
             }
         }
     }
