@@ -13,6 +13,7 @@ import java.io.PrintStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 
 import static com.google.common.truth.Truth.assertThat;
 import static org.junit.Assert.assertThrows;
@@ -47,12 +48,18 @@ public class CliTest {
         compare(Paths.get("src/test/data/masterDetailCopy/myapplicationcopy"), dir2.resolve("myapplicationcopy"));
     }
 
-    private void compare(Path actual, Path expected) {
+    private void compare(Path actual, Path expected) throws IOException {
         File expectedFile = expected.toFile();
         Assert.assertTrue(expectedFile.toString(), expectedFile.exists());
         File actualFile = actual.toFile();
         if (actualFile.isFile()) {
             Assert.assertTrue(expectedFile.toString(), expectedFile.isFile());
+            if (actual.getFileName().toString().endsWith(".java")) {
+                // || actual.getFileName().toString().endsWith(".xml")
+                List<String> f1 = Files.readAllLines(actual);
+                List<String> f2 = Files.readAllLines(expected);
+                assertThat(f1).isEqualTo(f2);
+            }
             return;
         }
         File[] actualChildFiles = actualFile.listFiles();

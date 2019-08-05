@@ -21,10 +21,11 @@ public class JavaPackageDirectory implements Node {
         }
         for (File childFile : files) {
             Path childPath = childFile.toPath();
+            String childName = childPath.getFileName().toString();
             if (childFile.isDirectory()) {
                 nodes.add(new JavaPackageDirectory(childPath, packageName));
-            } else {
-                nodes.add(new GenericFile(childPath));
+            } else if (childName.endsWith(".java")) {
+                nodes.add(new JavaFile(childPath, packageName));
             }
         }
     }
