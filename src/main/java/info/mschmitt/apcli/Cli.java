@@ -17,7 +17,7 @@ public class Cli {
 
     public void execute(String... args) throws CliException, IOException {
         if (args.length == 0) {
-            throw new CliException("You must specify exactly one command. Possible commands: project");
+            throw new CliException("You must specify exactly one command. Possible commands: cp-project");
         }
         String command = args[0];
         if (command.equals("cp-project")) {
