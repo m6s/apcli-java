@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.List;
 
 public class IdeaDirectory implements Node {
     private final ArrayList<Node> nodes = new ArrayList<>();
@@ -31,7 +32,7 @@ public class IdeaDirectory implements Node {
     }
 
     @Override
-    public void copyTo(Path path, String fromPackage, String toPackage) throws IOException {
+    public void copyTo(Path path, List<String> fromPackage, List<String> toPackage) throws IOException {
         Path resolvedPath = path.resolve(fileName);
         boolean mkdir = resolvedPath.toFile().mkdir();
         if (!mkdir) {

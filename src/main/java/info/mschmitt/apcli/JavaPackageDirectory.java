@@ -6,12 +6,15 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GenericDirectory implements Node {
+public class JavaPackageDirectory implements Node {
     private final ArrayList<Node> nodes = new ArrayList<>();
     private final Path fileName;
+    private final ArrayList<String> packageName;
 
-    public GenericDirectory(Path path) {
+    public JavaPackageDirectory(Path path, List<String> parentPackageName) {
         fileName = path.getFileName();
+        packageName = new ArrayList<>(parentPackageName);
+        packageName.add(fileName.toString());
         File[] files = path.toFile().listFiles();
         if (files == null) {
             return;
@@ -19,7 +22,7 @@ public class GenericDirectory implements Node {
         for (File childFile : files) {
             Path childPath = childFile.toPath();
             if (childFile.isDirectory()) {
-                nodes.add(new GenericDirectory(childPath));
+                nodes.add(new JavaPackageDirectory(childPath, packageName));
             } else {
                 nodes.add(new GenericFile(childPath));
             }
@@ -28,10 +31,16 @@ public class GenericDirectory implements Node {
 
     @Override
     public void copyTo(Path path, List<String> fromPackage, List<String> toPackage) throws IOException {
-        Path resolvedPath = path.resolve(fileName);
-        boolean mkdir = resolvedPath.toFile().mkdir();
-        if (!mkdir) {
-            throw new IllegalArgumentException();
+        Path resolvedPath = path;
+        if (fromPackage.equals(packageName)) {
+            for (int i = 0; i < packageName.size() - 1; i++) {
+                resolvedPath = resolvedPath.getParent();
+            }
+            for (String s : toPackage) {
+                resolvedPath = resolvedPath.resolve(s);
+            }
+        } else {
+            resolvedPath = resolvedPath.resolve(fileName);
         }
         for (Node node : nodes) {
             node.copyTo(resolvedPath, fromPackage, toPackage);

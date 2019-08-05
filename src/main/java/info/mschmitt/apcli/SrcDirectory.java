@@ -6,23 +6,22 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GenericDirectory implements Node {
+public class SrcDirectory implements Node {
     private final ArrayList<Node> nodes = new ArrayList<>();
     private final Path fileName;
 
-    public GenericDirectory(Path path) {
+    public SrcDirectory(Path path) {
         fileName = path.getFileName();
         File[] files = path.toFile().listFiles();
         if (files == null) {
             return;
         }
-        for (File childFile : files) {
-            Path childPath = childFile.toPath();
-            if (childFile.isDirectory()) {
-                nodes.add(new GenericDirectory(childPath));
-            } else {
-                nodes.add(new GenericFile(childPath));
+        for (File file : files) {
+            Path childPath = file.toPath();
+            if (!file.isDirectory()) {
+                continue;
             }
+            nodes.add(new FlavorDirectory(childPath));
         }
     }
 

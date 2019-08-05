@@ -4,13 +4,14 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
-public class GenericDirectory implements Node {
+public class JavaSrcDirectory implements Node {
     private final ArrayList<Node> nodes = new ArrayList<>();
     private final Path fileName;
 
-    public GenericDirectory(Path path) {
+    public JavaSrcDirectory(Path path) {
         fileName = path.getFileName();
         File[] files = path.toFile().listFiles();
         if (files == null) {
@@ -19,7 +20,7 @@ public class GenericDirectory implements Node {
         for (File childFile : files) {
             Path childPath = childFile.toPath();
             if (childFile.isDirectory()) {
-                nodes.add(new GenericDirectory(childPath));
+                nodes.add(new JavaPackageDirectory(childPath, Collections.emptyList()));
             } else {
                 nodes.add(new GenericFile(childPath));
             }

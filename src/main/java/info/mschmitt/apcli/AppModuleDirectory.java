@@ -7,13 +7,14 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class ProjectDirectory implements Node {
-    private static final List<String> IGNORED_DIRECTORIES =
-            Arrays.asList(".gradle", "build", "release", ".DS_Store", ".git");
-    private static final List<String> IGNORED_FILES = Arrays.asList("local.properties");
+public class AppModuleDirectory implements Node {
+    private static final List<String> IGNORED_DIRECTORIES = Arrays.asList("build", "release", ".DS_Store");
+    private static final List<String> IGNORED_FILES = Arrays.asList("app.iml");
     private final ArrayList<Node> nodes = new ArrayList<>();
+    private final Path fileName;
 
-    public ProjectDirectory(Path path) {
+    public AppModuleDirectory(Path path) {
+        fileName = path.getFileName();
         File[] files = path.toFile().listFiles();
         if (files == null) {
             return;
@@ -25,11 +26,8 @@ public class ProjectDirectory implements Node {
                 if (IGNORED_DIRECTORIES.contains(childName)) {
                     continue;
                 }
-                if (childName.equals(".idea")) {
-                    nodes.add(new IdeaDirectory(childPath));
-                } else if (childName.equals("app")) {
-                    // TODO Infer module name from settings.gradle
-                    nodes.add(new AppModuleDirectory(childPath));
+                if (childName.equals("src")) {
+                    nodes.add(new SrcDirectory(childPath));
                 } else {
                     nodes.add(new GenericDirectory(childPath));
                 }
@@ -47,12 +45,13 @@ public class ProjectDirectory implements Node {
 
     @Override
     public void copyTo(Path path, List<String> fromPackage, List<String> toPackage) throws IOException {
-        boolean mkdir = path.toFile().mkdir();
+        Path resolvedPath = path.resolve(fileName);
+        boolean mkdir = resolvedPath.toFile().mkdir();
         if (!mkdir) {
-            throw new IOException();
+            throw new IllegalArgumentException();
         }
         for (Node node : nodes) {
-            node.copyTo(path, fromPackage, toPackage);
+            node.copyTo(resolvedPath, fromPackage, toPackage);
         }
     }
 }
