@@ -1,4 +1,4 @@
-package info.mschmitt.myapplication;
+package info.mschmitt.myapplicationcopy;
 
 import android.content.Context;
 import androidx.test.InstrumentationRegistry;

@@ -1,4 +1,4 @@
-package info.mschmitt.myapplication;
+package info.mschmitt.myapplicationcopy;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -8,7 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import info.mschmitt.myapplication.dummy.DummyContent;
+import info.mschmitt.myapplicationcopy.dummy.DummyContent;
 
 /**
  * A fragment representing a single Item detail screen. This fragment is either contained in a {@link ItemListActivity}

@@ -1,4 +1,4 @@
-package info.mschmitt.myapplication;
+package info.mschmitt.myapplicationcopy;
 
 import android.content.Intent;
 import android.os.Bundle;

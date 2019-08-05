@@ -1,4 +1,4 @@
-package info.mschmitt.myapplication.dummy;
+package info.mschmitt.myapplicationcopy.dummy;
 
 import java.util.ArrayList;
 import java.util.HashMap;
