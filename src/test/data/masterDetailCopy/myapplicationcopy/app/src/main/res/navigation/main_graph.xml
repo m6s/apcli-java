@@ -7,5 +7,8 @@
             android:id="@+id/itemDetailFragment"
             android:name="info.mschmitt.myapplicationcopy.ItemDetailFragment"
             android:label="ItemDetailFragment">
+        <argument
+                android:name="message"
+                app:argType="info.mschmitt.myapplicationcopy.Message"/>
     </fragment>
 </navigation>

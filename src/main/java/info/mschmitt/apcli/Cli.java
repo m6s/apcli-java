@@ -1,30 +1,32 @@
 package info.mschmitt.apcli;
 
-import joptsimple.OptionException;
-
 import java.io.IOException;
 import java.io.PrintStream;
 import java.util.Arrays;
 
 public class Cli {
     public static void main(String[] args) {
+        int error = 0;
         try {
-            new Cli().execute(args, System.out);
-        } catch (OptionException | CliException | IOException ex) {
+            error = new Cli().execute(args, System.out, System.err);
+        } catch (IOException ex) {
             System.err.println(ex.getLocalizedMessage());
-            System.exit(-1);
         }
+        System.exit(error);
     }
 
-    public void execute(String[] args, PrintStream out) throws CliException, IOException {
+    public int execute(String[] args, PrintStream out, PrintStream err) throws IOException {
         if (args.length == 0) {
-            throw new CliException("You must specify exactly one command. Possible commands: cp-project");
+            err.println("You must specify exactly one command. Possible commands: cp-project");
+            return -1;
         }
         String command = args[0];
         if (command.equals("cp-project")) {
-            new CopyProjectCli().execute(Arrays.copyOfRange(args, 1, args.length), out);
+            new CopyProjectCli().execute(Arrays.copyOfRange(args, 1, args.length), out, err);
         } else {
-            throw new CliException(String.format("Unknown command: %s", command));
+            err.printf("Unknown command: %s\n", command);
+            return -1;
         }
+        return 0;
     }
 }

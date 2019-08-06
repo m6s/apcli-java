@@ -1,6 +1,5 @@
 package info.mschmitt.apcli;
 
-import joptsimple.OptionException;
 import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
@@ -16,29 +15,21 @@ import java.nio.file.Paths;
 import java.util.List;
 
 import static com.google.common.truth.Truth.assertThat;
-import static org.junit.Assert.assertThrows;
 
 public class CliTest {
     @Rule public TemporaryFolder testFolder = new TemporaryFolder();
 
     @Test
-    public void initWithMissingArgument() {
-        Cli cli = new Cli();
-        OptionException ex =
-                assertThrows(OptionException.class, () -> cli.execute(new String[]{"cp-project", "-f"}, System.out));
-        assertThat(ex).hasMessageThat().contains("requires an argument");
-    }
-
-    @Test
-    public void copyProject() throws IOException, CliException {
+    public void copyProject() throws IOException {
         Path dir1 = testFolder.getRoot().toPath().resolve("dir1");
         Path dir2 = testFolder.getRoot().toPath().resolve("dir2");
         copyRecursively(Paths.get("src/test/data/masterDetail"), dir1);
         dir2.toFile().mkdir();
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        PrintStream printStream = new PrintStream(baos);
         new Cli().execute(new String[]{"cp-project", dir1.resolve("myapplication").toString(),
                 dir2.resolve("myapplicationcopy").toString(), "--from-package=info.mschmitt.myapplication",
-                "--to-package=info.mschmitt.myapplicationcopy"}, new PrintStream(baos));
+                "--to-package=info.mschmitt.myapplicationcopy"}, printStream, printStream);
         baos.flush();
         String allWrittenLines = new String(baos.toByteArray());
         assertThat(allWrittenLines).startsWith("Copying project");

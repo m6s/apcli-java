@@ -18,10 +18,10 @@ dependencies {
     testCompile 'org.mockito:mockito-core:2.28.2'
 }
 
-mainClassName = 'info.mschmitt.apcli.App'
+mainClassName = 'info.mschmitt.apcli.Cli'
 
 graal {
-    mainClass 'info.mschmitt.apcli.App'
+    mainClass 'info.mschmitt.apcli.Cli'
     outputName 'apcli'
     graalVersion '1.0.0-rc16'
     option '-H:ReflectionConfigurationFiles=graal.json'
