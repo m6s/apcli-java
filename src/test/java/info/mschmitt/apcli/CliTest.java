@@ -24,7 +24,8 @@ public class CliTest {
     @Test
     public void initWithMissingArgument() {
         Cli cli = new Cli();
-        OptionException ex = assertThrows(OptionException.class, () -> cli.execute("cp-project", "-f"));
+        OptionException ex =
+                assertThrows(OptionException.class, () -> cli.execute(new String[]{"cp-project", "-f"}, System.out));
         assertThat(ex).hasMessageThat().contains("requires an argument");
     }
 
@@ -35,10 +36,9 @@ public class CliTest {
         copyRecursively(Paths.get("src/test/data/masterDetail"), dir1);
         dir2.toFile().mkdir();
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        System.setOut(new PrintStream(baos));
-        new Cli().execute("cp-project", dir1.resolve("myapplication").toString(),
+        new Cli().execute(new String[]{"cp-project", dir1.resolve("myapplication").toString(),
                 dir2.resolve("myapplicationcopy").toString(), "--from-package=info.mschmitt.myapplication",
-                "--to-package=info.mschmitt.myapplicationcopy");
+                "--to-package=info.mschmitt.myapplicationcopy"}, new PrintStream(baos));
         baos.flush();
         String allWrittenLines = new String(baos.toByteArray());
         assertThat(allWrittenLines).startsWith("Copying project");

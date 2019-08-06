@@ -25,9 +25,9 @@ public class ProjectDirectory implements Node {
                 if (IGNORED_DIRECTORIES.contains(childName)) {
                     continue;
                 }
-                if (childName.equals(".idea")) {
+                if (childName.equals(IdeaDirectory.NAME)) {
                     nodes.add(new IdeaDirectory(childPath));
-                } else if (childName.equals("app")) {
+                } else if (childName.equals(AppModuleDirectory.NAME)) {
                     // TODO Infer module name from settings.gradle
                     nodes.add(new AppModuleDirectory(childPath));
                 } else {

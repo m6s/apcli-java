@@ -4,14 +4,13 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.ArrayList;
 import java.util.List;
 
 public class JavaFile implements Node {
     private final Path path;
-    private final ArrayList<String> packageName;
+    private final List<String> packageName;
 
-    public JavaFile(Path path, ArrayList<String> packageName) {
+    public JavaFile(Path path, List<String> packageName) {
         this.path = path;
         this.packageName = packageName;
     }

@@ -7,11 +7,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SrcDirectory implements Node {
+    public static final String NAME = "src";
     private final ArrayList<Node> nodes = new ArrayList<>();
-    private final Path fileName;
 
     public SrcDirectory(Path path) {
-        fileName = path.getFileName();
         File[] files = path.toFile().listFiles();
         if (files == null) {
             return;
@@ -27,7 +26,7 @@ public class SrcDirectory implements Node {
 
     @Override
     public void copyTo(Path path, List<String> fromPackage, List<String> toPackage) throws IOException {
-        Path resolvedPath = path.resolve(fileName);
+        Path resolvedPath = path.resolve(NAME);
         boolean mkdir = resolvedPath.toFile().mkdir();
         if (!mkdir) {
             throw new IllegalArgumentException();

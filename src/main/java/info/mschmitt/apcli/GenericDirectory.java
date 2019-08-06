@@ -8,10 +8,10 @@ import java.util.List;
 
 public class GenericDirectory implements Node {
     private final ArrayList<Node> nodes = new ArrayList<>();
-    private final Path fileName;
+    private final String directory;
 
     public GenericDirectory(Path path) {
-        fileName = path.getFileName();
+        directory = path.getFileName().toString();
         File[] files = path.toFile().listFiles();
         if (files == null) {
             return;
@@ -28,11 +28,7 @@ public class GenericDirectory implements Node {
 
     @Override
     public void copyTo(Path path, List<String> fromPackage, List<String> toPackage) throws IOException {
-        Path resolvedPath = path.resolve(fileName);
-        boolean mkdir = resolvedPath.toFile().mkdir();
-        if (!mkdir) {
-            throw new IllegalArgumentException();
-        }
+        Path resolvedPath = path.resolve(directory);
         for (Node node : nodes) {
             node.copyTo(resolvedPath, fromPackage, toPackage);
         }

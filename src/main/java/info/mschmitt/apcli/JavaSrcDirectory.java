@@ -9,10 +9,9 @@ import java.util.List;
 
 public class JavaSrcDirectory implements Node {
     private final ArrayList<Node> nodes = new ArrayList<>();
-    private final Path fileName;
+
 
     public JavaSrcDirectory(Path path) {
-        fileName = path.getFileName();
         File[] files = path.toFile().listFiles();
         if (files == null) {
             return;
@@ -22,18 +21,14 @@ public class JavaSrcDirectory implements Node {
             if (childFile.isDirectory()) {
                 nodes.add(new JavaPackageDirectory(childPath, Collections.emptyList()));
             } else {
-                nodes.add(new GenericFile(childPath));
+                nodes.add(new JavaFile(childPath, Collections.emptyList()));
             }
         }
     }
 
     @Override
     public void copyTo(Path path, List<String> fromPackage, List<String> toPackage) throws IOException {
-        Path resolvedPath = path.resolve(fileName);
-        boolean mkdir = resolvedPath.toFile().mkdir();
-        if (!mkdir) {
-            throw new IllegalArgumentException();
-        }
+        Path resolvedPath = path.resolve("java");
         for (Node node : nodes) {
             node.copyTo(resolvedPath, fromPackage, toPackage);
         }

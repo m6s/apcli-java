@@ -8,10 +8,10 @@ import java.util.List;
 
 public class FlavorDirectory implements Node {
     private final ArrayList<Node> nodes = new ArrayList<>();
-    private final Path fileName;
+    private final String flavor;
 
     public FlavorDirectory(Path path) {
-        fileName = path.getFileName();
+        flavor = path.getFileName().toString();
         File[] files = path.toFile().listFiles();
         if (files == null) {
             return;
@@ -22,6 +22,8 @@ public class FlavorDirectory implements Node {
             if (file.isDirectory()) {
                 if (childName.equals("java")) {
                     nodes.add(new JavaSrcDirectory(childPath));
+                } else if (childName.equals("res")) {
+                    nodes.add(new ResDirectory(childPath));
                 } else {
                     nodes.add(new GenericDirectory(childPath));
                 }
@@ -37,11 +39,7 @@ public class FlavorDirectory implements Node {
 
     @Override
     public void copyTo(Path path, List<String> fromPackage, List<String> toPackage) throws IOException {
-        Path resolvedPath = path.resolve(fileName);
-        boolean mkdir = resolvedPath.toFile().mkdir();
-        if (!mkdir) {
-            throw new IllegalArgumentException();
-        }
+        Path resolvedPath = path.resolve(flavor);
         for (Node node : nodes) {
             node.copyTo(resolvedPath, fromPackage, toPackage);
         }
