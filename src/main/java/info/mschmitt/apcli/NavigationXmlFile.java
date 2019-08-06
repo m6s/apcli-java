@@ -24,6 +24,9 @@ public class NavigationXmlFile implements Node {
         String target = String.format("android:name=\"%s.", fromPackageString);
         String replacement = String.format("android:name=\"%s.", toPackageString);
         text = text.replace(target, replacement);
+        target = String.format("app:argType=\"%s.", fromPackageString);
+        replacement = String.format("app:argType=\"%s.", toPackageString);
+        text = text.replace(target, replacement);
         Files.write(resolvedPath, text.getBytes());
     }
 }
