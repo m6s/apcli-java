@@ -8,6 +8,12 @@ Building:
 
 `./gradlew nativeImage`
 
-Installing
+Installing:
 
 `sudo cp build/graal/apcli /usr/local/bin` 
+
+TODO:
+
+- [ ] `applicationId "info.mschmitt.showcase.app"`
+- [ ] `testInstrumentationRunner 'info.mschmitt.showcase.app.TestRunner'`
+- [ ] Parse `settings.gradle`
